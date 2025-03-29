@@ -2,12 +2,11 @@ import { Button } from '@lidofinance/lido-ui';
 import { MATOMO_CLICK_EVENTS_TYPES } from 'consts/matomo-click-events';
 import { PATH } from 'consts/urls';
 import { TryCSM } from 'features/welcome/try-csm';
-import Link from 'next/link';
-import { FC, useCallback } from 'react';
+import { FC } from 'react';
 import { Faq } from 'shared/components';
 import { useCsmEarlyAdoption } from 'shared/hooks';
 import { useCsmPaused, useCsmPublicRelease } from 'shared/hooks/useCsmStatus';
-import { trackMatomoEvent } from 'utils';
+import { LocalLink } from 'shared/navigate';
 import { ConsumedBanner } from './consumed-banner';
 import { NotEligibleBanner } from './not-eligible-banner/not-eligible-banner';
 import { PausedBanner } from './paused-banner';
@@ -18,15 +17,14 @@ export const StarterPack: FC = () => {
   const { data: isPublicRelease } = useCsmPublicRelease();
   const { data: ea } = useCsmEarlyAdoption();
 
-  const handleClick = useCallback(() => {
-    trackMatomoEvent(MATOMO_CLICK_EVENTS_TYPES.starterPackCreateNodeOperator);
-  }, []);
-
   let content = (
     <StarterPackSection>
-      <Link href={PATH.CREATE} passHref legacyBehavior>
-        <Button onClick={handleClick}>Create Node Operator</Button>
-      </Link>
+      <LocalLink
+        href={PATH.CREATE}
+        matomoEvent={MATOMO_CLICK_EVENTS_TYPES.starterPackCreateNodeOperator}
+      >
+        <Button fullwidth>Create Node Operator</Button>
+      </LocalLink>
     </StarterPackSection>
   );
 
